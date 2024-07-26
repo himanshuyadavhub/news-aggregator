@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>News Aggregator</title>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar-dark">
+            <a class="navbar-head" href="/">News Articles</a>
+            <div class="navbar-items-left">
+                <a class="nav-links" href="/sports">Sports <span class="sr-only">(current)</span></a>
+                <a class="nav-links" href="/business">Business</a>
+                <a class="nav-links" href="/technology">Technology</a>
+                <a class="nav-links" href="/entertainment">Entertainment</a>
+                <% if (user) { %>
+                    <a class="nav-links" href="/preferred">Preferred News</a>
+                <% } %>
+                
+
+            </div>
+    
+            <div class="navbar-items-right">
+                <% if (user) { %>
+                    <button class="nav-item nav-link btn btn-link" onclick="logout()">Logout</button>
+                <% } else { %>
+                    <a class="nav-links" href="/signin">Log In</a>
+                    <a class="nav-links" href="/signup">Create New Account</a>
+                <% } %>
+            </div>
+        </nav>
+        <h1 class="news-articles">News Articles</h1>
+        <div class="news-cards">
+            <% allArticles.forEach(article => { %>
+                <div class="single-card">
+                    <% if (article.imgurl) { %>
+                        <img src="<%= article.imgurl %>" class="news-img-top" alt="<%= article.title %>">
+                    <% } else { %>
+                        <img src="https://via.placeholder.com/200" class="news-img-top" alt="No image available">
+                    <% } %>
+                    <div class="news-body">
+                        <h5 class="news-title"><%= article.title %></h5>
+                        <p class="news-text"><%= article.description %></p>
+                    </div>
+                    <div class="news-footer">
+                        <a href="<%= article.url %>" class="read_more" target="_blank">Read More</a>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+    <script>
+        async function logout() {
+            const response = await fetch('/logout', {
+                method: 'POST'
+            })
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            } else {
+                window.location.href = '/';
+            }
+
+        }
+    </script>
+</body>
+
+</html>

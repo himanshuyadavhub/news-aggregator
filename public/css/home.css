@@ -1,0 +1,132 @@
+/* home.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2d2c2c;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.navbar-dark {
+    background-color: #343a40;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-head {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.navbar-items-left,
+.navbar-items-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-items-right {
+    margin-right: 10px;
+}
+
+.nav-links {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+.nav-links:hover {
+    text-decoration: underline;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.news-articles {
+    text-align: center;
+    margin: 20px 0px;
+    color: #747679;
+}
+
+.news-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-left: 40px;
+    margin-right: 40px;
+    gap: 20px;
+}
+
+.single-card {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.single-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(91, 112, 205, 0.2);
+}
+
+.news-img-top {
+    width: 100%;
+    height: auto;
+}
+
+.news-body {
+    padding: 15px;
+}
+
+.news-title {
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: #343a40;
+}
+
+.news-text {
+    font-size: 16px;
+    color: #6c757d;
+}
+
+.news-footer {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    text-align: right;
+}
+
+.read_more {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.read_more:hover {
+    text-decoration: underline;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
