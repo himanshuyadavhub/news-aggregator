@@ -11,10 +11,14 @@ const constants = require('./config/constants');
 const connectDB = require('./db/db');
 connectDB();
 
-const news = require('./Controller/news');
+const producer = require('./src/mq/producer');
+const consumer = require('./src/mq/consumer');
+const newsController = require('./src/Controller/newsController');
+const usersController = require('./src/Controller/usersController');
 
 
-news.apiToDb(constants.categories);
+producer.newsToQueue(constants.categories);
+// consumer.newsFromQueue();
 
 
 
@@ -23,9 +27,7 @@ const store = new MongoDBStore({
     collection: "mySessions",
   });
 
-const newsController = require('./Controller/newsController');
-const usersController = require('./Controller/usersController');
-const { apiToDb } = require('./Controller/news');
+
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname,'public')))
@@ -39,6 +41,13 @@ app.use(
     })
 );
 
+app.use((req, res, next) => {
+  if (req.originalUrl === '/favicon.ico') {
+      res.status(204).end(); // Send No Content status
+  } else {
+      next();
+  }
+});
 
 app.get('/signup', (req,res)=>{res.render('signup')});
 app.post('/signup',usersController.postSignup);
@@ -48,6 +57,7 @@ app.post('/logout',usersController.logout);
 
 
 app.get('/:category?',newsController.getNews);
+
 
 
 app.listen(config.ePort,()=>{
