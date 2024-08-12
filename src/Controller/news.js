@@ -72,12 +72,38 @@ exports.categorizeNews = async (desc) => {
 }
 
 
-exports.newsFromDb = async (category) => {
-    const newsArticles = await Article.find({ tags: category });
-    if (newsArticles.length !== 0) {
-        return newsArticles;
-    } else {
-        return null;
+exports.newsFromDb = async (category,date) => {
+    const formattedDate = formatDate(date);
+    let startDate = formattedDate[0];
+    let endDate = formattedDate[1];
+    try {
+        let newsArticles;
+        if(!category){
+            newsArticles = await Article.find({
+                publishedAt: { $gte: startDate, $lte: endDate }
+            });
+        }else{
+            newsArticles = await Article.find({ 
+                tags:category,
+                publishedAt: { $gte: startDate, $lte: endDate } 
+            });
+        }
+        
+        if (newsArticles.length !== 0) {
+            return newsArticles;
+        } else {
+            console.log(`Zero news fetched under category ${category} between date ${startDate} and ${endDate}`);
+            return null;
+        }
+    } catch (error) {
+        console.log('Error in fetching news from DB',error.message);
     }
+
 }
 
+
+const formatDate = (date) => {
+    let startDate =  new Date(`${date}T00:00:00.000+00:00`).toISOString().replace('Z', '+00:00');
+    let endDate = new Date(`${date}T23:59:59.999Z`).toISOString().replace('Z','+00:00');
+    return ([startDate,endDate]);
+}

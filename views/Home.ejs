@@ -19,41 +19,85 @@
                 <% if (user) { %>
                     <a class="nav-links" href="/preferred">Preferred News</a>
                 <% } %>
-                
 
             </div>
-    
+
             <div class="navbar-items-right">
                 <% if (user) { %>
                     <button class="nav-item nav-link btn btn-link" onclick="logout()">Logout</button>
-                <% } else { %>
-                    <a class="nav-links" href="/signin">Log In</a>
-                    <a class="nav-links" href="/signup">Create New Account</a>
-                <% } %>
+                    <% } else { %>
+                        <a class="nav-links" href="/signin">Log In</a>
+                        <a class="nav-links" href="/signup">Create New Account</a>
+                        <% } %>
             </div>
         </nav>
-        <h1 class="news-articles">News Articles</h1>
-        <div class="news-cards">
-            <% allArticles.forEach(article => { %>
-                <div class="single-card">
-                    <% if (article.imgurl) { %>
-                        <img src="<%= article.imgurl %>" class="news-img-top" alt="<%= article.title %>">
-                    <% } else { %>
-                        <img src="https://via.placeholder.com/200" class="news-img-top" alt="No image available">
-                    <% } %>
-                    <div class="news-body">
-                        <h5 class="news-title"><%= article.title %></h5>
-                        <p class="news-text"><%= article.description %></p>
-                    </div>
-                    <div class="news-footer">
-                        <a href="<%= article.url %>" class="read_more" target="_blank">Read More</a>
-                    </div>
-                </div>
-            <% }); %>
+
+        <div class="header-container">
+            <h1 class="news-articles">News Articles</h1>
+
+            <form method="GET" class="search-form" id="datesearchForm">
+                <label for="search-date">Search by Date:</label>
+                <input type="date" id="search-date" name="date">
+                <input type="submit" id="search-button" value="Search">
+            </form>
         </div>
+        <% if (!allArticles || allArticles.length===0) { %>
+            <div style="text-align: center; color: white; margin-top: 20px;">
+                <h1>No news articles found...</h1>
+            </div>
+        <% } else { %>
+                <div class="news-cards">
+                    <% allArticles.forEach(article=> { %>
+                        <div class="single-card">
+                            <% if (article.imgurl) { %>
+                                <img src="<%= article.imgurl %>" class="news-img-top" alt="<%= article.title %>">
+                            <% } else { %>
+                                <img src="https://via.placeholder.com/200" class="news-img-top" alt="No image available">
+                            <% } %>
+                                <div class="news-body">
+                                    <h5 class="news-title"><%= article.title %></h5>
+                                    <p class="news-text"><%= article.description %></p>
+                                </div>
+                                <div class="news-footer">
+                                    <a href="<%= article.url %>" class="read_more" target="_blank">Read More</a>
+                                </div>
+                        </div>
+                    <% }); %>
+                </div>
+        <% } %>
+
     </div>
-    
+
     <script>
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchedDate = urlParams.get('date');
+
+        if (searchedDate) {
+            // If there is a date query parameter, set it as the value of the date input
+            document.getElementById('search-date').value = searchedDate;
+        } else {
+            // If no date query parameter, set the input to today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('search-date').value = today;
+        }
+
+        document.getElementById('dateSearchForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the selected date
+            const selectedDate = document.getElementById('search-date').value;
+            console.log(selectedDate)
+
+            // Get the current page URL without query parameters
+            const currentUrl = window.location.pathname;
+            const newUrl = `${currentUrl}?date=${encodeURIComponent(selectedDate)}`;
+
+            // Update the form's action URL and submit the form
+            this.action = newUrl;
+            this.submit();
+        })
+
         async function logout() {
             const response = await fetch('/logout', {
                 method: 'POST'

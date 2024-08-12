@@ -39,7 +39,7 @@ exports.newsToQueue = async (categories) => {
         setTimeout(async() => {
             await channel.close();
             await connection.close();
-        }, 1000);
+        }, 5000);
 
     } catch (error) {
         console.error('Error in newsToQueue:', error);

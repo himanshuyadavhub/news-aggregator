@@ -57,11 +57,59 @@ body {
     cursor: pointer;
 }
 
-.news-articles {
-    text-align: center;
-    margin: 20px 0px;
-    color: #747679;
+/* Style for the header container to align the items */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
+
+/* Center the heading in the line */
+.news-articles {
+    
+    font-size: 24px;
+    text-align: center;
+    margin: 20px 30px;
+    color: #4d5054;
+}
+
+/* Style for the search form to align items in a line */
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+/* Adjust margins for the form elements */
+.search-form label {
+    margin-right: 10px;
+    color:#dee2e6;
+}
+
+.search-form input[type="date"] {
+    margin-right: 10px;
+}
+
+/* external-styles.css */
+#search-button {
+    background-color: #2509dd; 
+    border: none;
+    color: white; 
+    padding: 5px 15px;
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 12px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 8px; 
+
+}
+
+#search-button:hover {
+    background-color: #2900f5; 
+}
+
 
 .news-cards {
     display: grid;
